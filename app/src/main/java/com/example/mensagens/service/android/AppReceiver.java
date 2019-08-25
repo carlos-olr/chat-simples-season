@@ -1,0 +1,23 @@
+package com.example.mensagens.service.android;
+
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+
+
+/**
+ * Created by carlos on 15/06/18.
+ */
+
+public class AppReceiver extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Intent myIntent = new Intent(context, SocketService.class);
+        context.startService(myIntent);
+
+//        MensagemService mensagemService = new MensagemService(context);
+//        mensagemService.recuperarMensagensNaoLidas();
+    }
+}

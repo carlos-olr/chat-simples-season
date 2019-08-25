@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">mensagens</string>
+    <string name="title_activity_conversas">ConversasActivity</string>
+</resources>
