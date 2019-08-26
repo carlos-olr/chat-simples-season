@@ -57,8 +57,19 @@ public abstract class Database<T extends Model> extends SQLiteOpenHelper {
             String arquivo = "sql/versao" + versaoAlvo + ".sql";
             String sql = IOUtils.toString(ctx.getAssets().open(arquivo), StandardCharsets.UTF_8);
             conn.execSQL(sql);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void execSQL(String sql, String... args) {
+        SQLiteDatabase conn = this.getReadableDatabase();
+        try {
+            conn.execSQL(sql, args);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            conn.close();
         }
     }
 

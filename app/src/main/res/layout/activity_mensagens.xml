@@ -6,4 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".controller.activity.conversa.MensagensActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mensagens_recycle_view_mensagens"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/mensagens_layout_enviar_mensagem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mensagens_layout_enviar_mensagem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <EditText
+            android:id="@+id/mensagens_edit_input_mensagem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:inputType="textMultiLine"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/mensagens_btn_enviar"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/mensagens_btn_enviar"
+            android:text="Enviar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="enviarMensagem"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

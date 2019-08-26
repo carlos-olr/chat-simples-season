@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mensagens">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".controller.activity.conversa.MensagensActivity"></activity>
-        <activity android:name=".controller.activity.login.CadastrarActivity" />
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+
         <activity android:name=".controller.activity.login.PreLogin" />
-        <activity android:name=".controller.activity.conversa.ConversasActivity" />
         <activity android:name=".controller.activity.login.LoginActivity" />
+        <activity android:name=".controller.activity.login.CadastrarActivity" />
+
+        <activity android:name=".controller.activity.conversa.ConversasActivity" />
+        <activity android:name=".controller.activity.conversa.MensagensActivity" />
+
         <activity android:name=".controller.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +30,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".service.android.SocketService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission=""
+            />
+
+        <receiver
+            android:name=".receiver.AppReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

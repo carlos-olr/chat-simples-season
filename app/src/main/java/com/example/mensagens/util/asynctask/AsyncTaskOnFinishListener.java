@@ -2,6 +2,6 @@ package com.example.mensagens.util.asynctask;
 
 public interface AsyncTaskOnFinishListener {
 
-    void onFinish(AsyncTaskParams resultado);
+    void onFinish(AsyncTaskResult resultado);
 
 }

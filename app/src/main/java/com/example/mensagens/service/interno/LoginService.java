@@ -38,7 +38,7 @@ public class LoginService {
     //    public String login(Usuario usuario) {
 //        try {
 //            String url = Constantes.HOST + "/login";
-//            RespostaHttp respostaHttp = new HttpUtils.HttpPostHelper().execute(url, usuario.getAutenticacao()).get();
+//            RespostaHttp respostaHttp = new HttpUtils.HttpPostHelper().executeInBackGround(url, usuario.getAutenticacao()).get();
 //            if (respostaHttp.possuiErro()) {
 //                throw new ChatCompletoException(respostaHttp.getErro());
 //            }

@@ -8,10 +8,9 @@
     tools:context=".controller.activity.conversa.ConversasActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/main_recycle_view_conteudo"
+        android:id="@+id/conversas_recycle_view_conversas"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="50dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

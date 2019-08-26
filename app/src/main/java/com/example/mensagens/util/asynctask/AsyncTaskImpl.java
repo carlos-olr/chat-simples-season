@@ -2,7 +2,9 @@ package com.example.mensagens.util.asynctask;
 
 import android.os.AsyncTask;
 
-public abstract class AsyncTaskImpl extends AsyncTask<AsyncTaskParams, AsyncTaskParams, AsyncTaskParams> {
+import org.apache.commons.lang3.BooleanUtils;
+
+public abstract class AsyncTaskImpl extends AsyncTask<AsyncTaskParams, AsyncTaskParams, AsyncTaskResult> {
 
     protected AsyncTaskOnFinishListener onFinishListener;
 
@@ -17,17 +19,19 @@ public abstract class AsyncTaskImpl extends AsyncTask<AsyncTaskParams, AsyncTask
         return this;
     }
 
-    protected abstract AsyncTaskParams doInBackground(AsyncTaskParams params);
+    protected abstract AsyncTaskParams executeInBackGround(AsyncTaskParams params);
 
     @Override
-    protected AsyncTaskParams doInBackground(AsyncTaskParams... params) {
-        return this.doInBackground(params[0]);
+    protected AsyncTaskResult doInBackground(AsyncTaskParams... params) {
+        AsyncTaskParams paramsRetornados = this.executeInBackGround(params[0]);
+        boolean sucesso = BooleanUtils.isTrue((Boolean) paramsRetornados.getParam("sucesso"));
+        return new AsyncTaskResult(paramsRetornados.getContext(), paramsRetornados, sucesso);
     }
 
     @Override
-    protected void onPostExecute(AsyncTaskParams asyncTaskParams) {
+    protected void onPostExecute(AsyncTaskResult result) {
         if (onFinishListener != null) {
-            onFinishListener.onFinish(asyncTaskParams);
+            onFinishListener.onFinish(result);
         }
     }
 }

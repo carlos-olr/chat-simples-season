@@ -1,9 +1,11 @@
-package com.example.mensagens.service.android;
+package com.example.mensagens.receiver;
 
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import com.example.mensagens.service.android.SocketService;
 
 
 /**
@@ -17,7 +19,7 @@ public class AppReceiver extends BroadcastReceiver {
         Intent myIntent = new Intent(context, SocketService.class);
         context.startService(myIntent);
 
-//        MensagemService mensagemService = new MensagemService(context);
+//        MensagensService mensagemService = new MensagensService(context);
 //        mensagemService.recuperarMensagensNaoLidas();
     }
 }

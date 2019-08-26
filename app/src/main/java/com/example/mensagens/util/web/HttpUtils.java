@@ -24,7 +24,7 @@ public class HttpUtils {
     public static class HttpGetHelper extends AsyncTaskImpl {
 
         @Override
-        protected AsyncTaskParams doInBackground(AsyncTaskParams params) {
+        protected AsyncTaskParams executeInBackGround(AsyncTaskParams params) {
             try {
                 String url = params.getParam("url");
                 OkHttpClient client = new OkHttpClient();
@@ -42,7 +42,7 @@ public class HttpUtils {
     public static class HttpPostHelper extends AsyncTaskImpl {
 
         @Override
-        protected AsyncTaskParams doInBackground(AsyncTaskParams params) {
+        protected AsyncTaskParams executeInBackGround(AsyncTaskParams params) {
             try {
                 String url = params.getParam("url");
                 String json = params.getParam("json");

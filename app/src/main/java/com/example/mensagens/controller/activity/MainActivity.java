@@ -11,6 +11,7 @@ import com.example.mensagens.controller.activity.login.PreLogin;
 import com.example.mensagens.service.interno.LoginService;
 import com.example.mensagens.util.asynctask.AsyncTaskImpl;
 import com.example.mensagens.util.asynctask.AsyncTaskParams;
+import com.example.mensagens.util.asynctask.AsyncTaskResult;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,16 +22,15 @@ public class MainActivity extends AppCompatActivity {
 
         LoginService loginService = new LoginService(this);
 
-        AsyncTaskParams params = new AsyncTaskParams();
+        AsyncTaskParams params = new AsyncTaskParams(this);
         params.put("loginService", loginService);
-        params.put("context", this);
         new VerificaLoginAsyncTask().execute(params);
     }
 
     private static class VerificaLoginAsyncTask extends AsyncTaskImpl {
 
         @Override
-        protected AsyncTaskParams doInBackground(AsyncTaskParams params) {
+        protected AsyncTaskParams executeInBackGround(AsyncTaskParams params) {
             LoginService loginService = params.getParam("loginService");
 
             params.put("isLoginAtivo", loginService.isLoginAtivo());
@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(AsyncTaskParams params) {
-            boolean isLoginAtivo = params.getParam("isLoginAtivo");
-            MainActivity ctx = params.getParam("context");
+        protected void onPostExecute(AsyncTaskResult result) {
+            boolean isLoginAtivo = result.getParams().getParam("isLoginAtivo");
+            MainActivity ctx = result.getContext();
             Class klass = isLoginAtivo ? ConversasActivity.class : PreLogin.class;
             ctx.startActivity(new Intent(ctx, klass));
         }
