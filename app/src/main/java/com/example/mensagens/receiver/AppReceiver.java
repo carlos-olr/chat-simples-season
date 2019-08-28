@@ -18,8 +18,5 @@ public class AppReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Intent myIntent = new Intent(context, SocketService.class);
         context.startService(myIntent);
-
-//        MensagensService mensagemService = new MensagensService(context);
-//        mensagemService.recuperarMensagensNaoLidas();
     }
 }

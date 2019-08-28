@@ -67,9 +67,6 @@ public class LoginActivity extends AppCompatActivity {
                 // msg nesse caso é token de login
                 ctx.loginService.setUsuario(msg);
 
-                Intent myIntent = new Intent(ctx.getBaseContext(), SocketService.class);
-                ctx.startService(myIntent);
-
                 ctx.startActivity(new Intent(ctx, ConversasActivity.class));
             } else {
                 Snackbar.make(loginLayout, "Erro ao logar!", Snackbar.LENGTH_LONG).show();
@@ -80,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+        startActivity(new Intent(this, PreLogin.class));
     }
 }

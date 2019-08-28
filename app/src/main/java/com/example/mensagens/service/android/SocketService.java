@@ -1,9 +1,12 @@
 package com.example.mensagens.service.android;
 
 
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
@@ -36,7 +39,7 @@ public class SocketService extends Service {
     public void onCreate() {
         super.onCreate();
         loginService = new LoginService(getApplicationContext());
-        mensagensService =  new MensagensService(getApplicationContext());
+        mensagensService = new MensagensService(getApplicationContext());
 
         onBind(new Intent());
     }
@@ -67,20 +70,37 @@ public class SocketService extends Service {
 
             Long idMensagemSalva = mensagensService.salvarMensagemRecebida(mensagem);
 
-            NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(getApplicationContext(), "MensagensRecebidas")
-                        .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setContentTitle(mensagem.autor).setContentText(mensagem.conteudo);
+            Intent new_intent = new Intent();
+            new_intent.setAction("MENSAGEM_RECEBIDA");
+            sendBroadcast(new_intent);
 
-            int NOTIFICATION_ID = 12345;
-
-            Intent targetIntent = new Intent(getApplicationContext(), MensagensActivity.class);
-            targetIntent.putExtra("idContato", mensagem.autorId);
-            PendingIntent contentIntent = PendingIntent.getActivity(SocketService.this, 0,
-                    targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentIntent(contentIntent);
-            builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-            NotificationManagerCompat.from(getApplicationContext()).notify(NOTIFICATION_ID, builder.build());
+//            NotificationManager manager = (NotificationManager)
+//                    getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//            NotificationChannel mChannel = manager.getNotificationChannel("msg_channel");
+//            if (mChannel == null) {
+//                mChannel = new NotificationChannel("msg_channel",
+//                        "MensagensRecebidas", NotificationManager.IMPORTANCE_HIGH);
+//                mChannel.enableVibration(true);
+//                mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+//                mChannel.setDescription("Mensagens channel");
+//                manager.createNotificationChannel(mChannel);
+//            }
+//
+//            NotificationCompat.Builder builder =
+//                    new NotificationCompat.Builder(getApplicationContext(), "msg_channel")
+//                            .setSmallIcon(R.drawable.ic_launcher_foreground)
+//                            .setContentTitle(mensagem.autor)
+//                            .setContentText(mensagem.conteudo);
+//
+//            Intent targetIntent = new Intent(getApplicationContext(), MensagensActivity.class);
+//            targetIntent.putExtra("idContato", mensagem.autorId);
+//            PendingIntent contentIntent = PendingIntent.getActivity(SocketService.this, 0,
+//                    targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            builder.setContentIntent(contentIntent);
+//            builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//
+//            manager.notify(0, builder.build());
         }
     };
 

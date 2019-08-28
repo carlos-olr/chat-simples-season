@@ -35,21 +35,6 @@ public class LoginService {
         return this.getUsuarioFromToken();
     }
 
-    //    public String login(Usuario usuario) {
-//        try {
-//            String url = Constantes.HOST + "/login";
-//            RespostaHttp respostaHttp = new HttpUtils.HttpPostHelper().executeInBackGround(url, usuario.getAutenticacao()).get();
-//            if (respostaHttp.possuiErro()) {
-//                throw new ChatCompletoException(respostaHttp.getErro());
-//            }
-//            this.sharedPrefs.edit().putString("tokenLogin", respostaHttp.getSucesso()).apply();
-//            return respostaHttp.getSucesso();
-//        } catch (InterruptedException | ExecutionException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-
     private Usuario getUsuarioFromToken() {
         String tokenLogin = this.sharedPrefs.getString("tokenLogin", "");
         if (StringUtils.isEmpty(tokenLogin)) {

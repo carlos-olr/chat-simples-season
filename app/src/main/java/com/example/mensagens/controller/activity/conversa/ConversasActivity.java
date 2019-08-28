@@ -1,7 +1,10 @@
 package com.example.mensagens.controller.activity.conversa;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -13,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mensagens.R;
 import com.example.mensagens.controller.adapter.ConversasAdapter;
+import com.example.mensagens.controller.adapter.MensagensAdapter;
 import com.example.mensagens.model.Conversa;
+import com.example.mensagens.model.Mensagem;
 import com.example.mensagens.model.Usuario;
 import com.example.mensagens.repository.ConversaRepository;
 import com.example.mensagens.service.interno.MensagensService;
@@ -24,6 +29,8 @@ import com.example.mensagens.util.asynctask.AsyncTaskResult;
 import com.example.mensagens.util.json.JsonModel;
 import com.example.mensagens.util.web.HttpUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class ConversasActivity extends AppCompatActivity {
 
@@ -41,7 +48,45 @@ public class ConversasActivity extends AppCompatActivity {
 
         this.listarConversasExistentes();
         this.configurarBotaoNovaConversa();
+
+        if (activityReceiver != null) {
+            IntentFilter intentFilter = new IntentFilter("MENSAGEM_RECEBIDA");
+            registerReceiver(activityReceiver, intentFilter);
+        }
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (activityReceiver != null) {
+            IntentFilter intentFilter = new IntentFilter("MENSAGEM_RECEBIDA");
+            registerReceiver(activityReceiver, intentFilter);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        unregisterReceiver(activityReceiver);
+    }
+
+    private BroadcastReceiver activityReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            List<Conversa> conversas = conversaRepository.buscarTodas();
+
+            ConversasAdapter adapter = (ConversasAdapter) recyclerView.getAdapter();
+            adapter.atualizar(conversas);
+            adapter.notifyDataSetChanged();
+        }
+    };
 
     private void listarConversasExistentes() {
         ConversasAdapter adapter = new ConversasAdapter(this, conversaRepository.buscarTodas());

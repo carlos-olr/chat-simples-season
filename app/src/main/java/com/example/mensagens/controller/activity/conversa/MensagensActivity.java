@@ -1,5 +1,9 @@
 package com.example.mensagens.controller.activity.conversa;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -59,7 +63,40 @@ public class MensagensActivity extends AppCompatActivity {
             }
             this.listarMensagens();
         }
+
+        if (activityReceiver != null) {
+            IntentFilter intentFilter = new IntentFilter("MENSAGEM_RECEBIDA");
+            registerReceiver(activityReceiver, intentFilter);
+        }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (activityReceiver != null) {
+            IntentFilter intentFilter = new IntentFilter("MENSAGEM_RECEBIDA");
+            registerReceiver(activityReceiver, intentFilter);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        unregisterReceiver(activityReceiver);
+    }
+
+    private BroadcastReceiver activityReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            List<Mensagem> mensagens = mensagemRepository.buscarMensagensPorConversa(conversaAtual);
+
+            MensagensAdapter adapter = (MensagensAdapter) recyclerView.getAdapter();
+            adapter.atualizar(mensagens);
+            adapter.notifyDataSetChanged();
+        }
+    };
 
     private void listarMensagens() {
         List<Mensagem> mensagens = mensagemRepository.buscarMensagensPorConversa(conversaAtual);
@@ -93,6 +130,11 @@ public class MensagensActivity extends AppCompatActivity {
                 .execute(params);
 
         mensagensService.salvarMensagemEnviada(novaMensagem);
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, ConversasActivity.class));
     }
 
     private static class MensagemEnviadaCallback implements AsyncTaskOnFinishListener {

@@ -20,6 +20,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        verificarLog();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        verificarLog();
+    }
+
+    private void verificarLog() {
         LoginService loginService = new LoginService(this);
 
         AsyncTaskParams params = new AsyncTaskParams(this);
